@@ -41,5 +41,46 @@ namespace SpaceSim
             base.Draw();
         }
     }
+    public class DwarfPlanet : Planet
+    {
+        public DwarfPlanet(String name) : base(name) { }
+        public override void Draw()
+        {
+            Console.Write("Dwarf planet : ");
+            base.Draw();
+        }
+    }
+
+
+    public class Comet : SpaceObject
+    {
+        public Comet(String name) : base(name) { }
+        public override void Draw()
+        {
+            Console.Write("Comet: ");
+            base.Draw();
+        }
+    }
+    public class AsteroidBelt : SpaceObject
+    {
+        public AsteroidBelt(String name) :base(name) { }
+        public override void Draw()
+        {
+            Console.Write("Asteroid belt : ");
+            base.Draw();
+        }
+    }
+    public class Asteroid : SpaceObject
+    {
+        public Asteroid(String name) : base(name) { }
+        public override void Draw()
+        {
+            Console.Write("Asteroid : ");
+            base.Draw();
+        }
+
+    }
+
+
 }
 
