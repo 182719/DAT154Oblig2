@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SpaceSim
 {
@@ -7,10 +8,14 @@ namespace SpaceSim
         public String name { get; set; }
         public String color { get; set; }
         public int radius { get; set; } //represented i km
+        public double[] position { get; set; } = new double[2];
+
 
         public SpaceObject(String name, String color, int radius)
         {
             this.name = name;
+            this.color = color;
+            this.radius = radius;
         }
         public virtual void Draw()
         {
@@ -18,7 +23,7 @@ namespace SpaceSim
         }
 
     }
-
+    //TODO: initialiser variabler i alle klassene
     public class Star : SpaceObject
     {
         public int orbitalRadius { get; set; } //represented in (000 km)
@@ -39,47 +44,61 @@ namespace SpaceSim
         public int orbitalPeriod { get; set; } //represented in hours
         public int orbitalSpeed { get; set; } // represented in km/s
         public int rotationalPeriod { get; set; } // represented in hours
-        public double[] position { get; set; } = new double[2];
+        public List<Moon> moonList { get; private set; }
 
 
-        public Planet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed) 
-            : base(name, color, radius) { }
+        public Planet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod,
+            int rotationalPeriod, int orbitalSpeed, List<Moon> moonList) : base(name, color, radius)
+        {
+            
+        }
         public override void Draw()
         {
             Console.Write("Planet: ");
             base.Draw();
         }
-        public virtual double[] calPosition(int time)
-        {   
-            this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+        public virtual double[] updatePosition(int time, SpaceObject spaceObject)
+        {
+            double offsetX = 0;
+            double offsetY = 0;
+
+            if(spaceObject != null)
+            {
+                offsetX = spaceObject.position[0];
+                offsetX = spaceObject.position[1];
+            }
+
+            this.position[0] = offsetX + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+            this.position[1] = offsetY + Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+
+            if(moonList != null)
+            {
+                foreach (Moon moon in this.moonList)
+                {
+                    moon.updatePosition(time, this);
+                }
+            }
             return this.position;
+
         }
 
     }
 
     public class Moon : Planet
     {
-        public Planet planet { get; set; }
-        public Moon(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed)
-            : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed) { }
+        public Moon(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<Moon> moonList=null)
+            : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed, moonList) { }
         public override void Draw()
         {
             Console.Write("Moon : ");
             base.Draw();
         }
-        public override double[] calPosition(int time)
-        {
-            this.position[0] = planet.position[0] + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            this.position[1] = planet.position[1] + Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            return this.position; ;
-        }
 
     }
     public class DwarfPlanet : Planet
     {
-        public DwarfPlanet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed)
-            : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed) { }
+        public DwarfPlanet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<Moon> moonList)
+            : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed, moonList) { }
         public override void Draw()
         {
             Console.Write("Dwarf planet : ");
@@ -112,8 +131,8 @@ namespace SpaceSim
     }
     public class Asteroid : Planet
     {
-        public Asteroid(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed)
-            : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed) { }
+        public Asteroid(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<Moon> moonList)
+            : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed, moonList) { }
         public override void Draw()
         {
             Console.Write("Asteroid : ");
