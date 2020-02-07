@@ -23,14 +23,19 @@ namespace SpaceSim
         }
 
     }
-    //TODO: initialiser variabler i alle klassene
+
     public class Star : SpaceObject
     {
         public int orbitalRadius { get; set; } //represented in (000 km)
         public int orbitalPeriod { get; set; } //represented in hours
         public int rotationalPeriod { get; set; } // represented in hours
 
-        public Star(String name, String color, int radius) : base(name, color, radius) { }
+        public Star(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod) : base(name, color, radius)
+        {
+            this.orbitalRadius = orbitalRadius;
+            this.orbitalPeriod = orbitalPeriod;
+            this.rotationalPeriod = rotationalPeriod;
+        }
         public override void Draw()
         {
             Console.Write("Star : ");
@@ -50,7 +55,11 @@ namespace SpaceSim
         public Planet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod,
             int rotationalPeriod, int orbitalSpeed, List<Moon> moonList) : base(name, color, radius)
         {
-            
+            this.orbitalRadius = orbitalRadius;
+            this.orbitalPeriod = orbitalPeriod;
+            this.orbitalSpeed = orbitalSpeed;
+            this.rotationalPeriod = rotationalPeriod;
+            this.moonList = moonList;
         }
         public override void Draw()
         {
@@ -113,7 +122,12 @@ namespace SpaceSim
         public int orbitalPeriod { get; set; }
         public int rotationalPeriod { get; set; }
 
-        public Comet(String name, String color, int radius) : base(name, color, radius) { }
+        public Comet(String name, String color, int radius) : base(name, color, radius)
+        {
+            this.orbitalRadius = orbitalRadius;
+            this.orbitalPeriod = orbitalPeriod;
+            this.rotationalPeriod = rotationalPeriod;
+        }
         public override void Draw()
         {
             Console.Write("Comet: ");
