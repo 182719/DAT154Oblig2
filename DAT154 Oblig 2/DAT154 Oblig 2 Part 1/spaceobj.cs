@@ -21,7 +21,14 @@ namespace SpaceSim
         {
             Console.WriteLine(name);
         }
-
+        public virtual String toString()
+        {
+            return String.Format("Name: {0}, Color: {1}, Radius {2} ", this.name, this.color, this.radius);
+        }
+        public virtual double[] updatePosition(int time, SpaceObject spaceObject)
+        {
+            return this.position;
+        }
     }
 
     public class Star : SpaceObject
@@ -66,7 +73,7 @@ namespace SpaceSim
             Console.Write("Planet: ");
             base.Draw();
         }
-        public virtual double[] updatePosition(int time, SpaceObject spaceObject)
+        public override double[] updatePosition(int time, SpaceObject spaceObject)
         {
             double offsetX = 0;
             double offsetY = 0;
