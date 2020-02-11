@@ -10,7 +10,7 @@ namespace WpfApp1
     class SolarSystem
     {
 
-		private List<SpaceObject> list;
+		private List<SpaceObject> list { get; set; }
 		public SolarSystem(Star sun)
 		{
 			list = new List<SpaceObject>

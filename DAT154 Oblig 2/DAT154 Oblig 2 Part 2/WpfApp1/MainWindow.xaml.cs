@@ -31,5 +31,11 @@ namespace WpfApp1
             SolarSystem solar_system = new SolarSystem(sun);
             List<SpaceObject> solarSystem = solar_system.getSolarSystem();
 		}
+
+
+        public void drawSolarSystem(List<SpaceObject> solar_system)
+        {
+
+        }
     }
 }
