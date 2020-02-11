@@ -81,7 +81,7 @@ namespace SpaceSim
             if(spaceObject != null)
             {
                 offsetX = spaceObject.position[0];
-                offsetX = spaceObject.position[1];
+                offsetY = spaceObject.position[1];
             }
 
             this.position[0] = offsetX + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;

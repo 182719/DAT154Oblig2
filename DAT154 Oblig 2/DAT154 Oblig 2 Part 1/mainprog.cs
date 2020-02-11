@@ -5,9 +5,14 @@ using SpaceSim;
 class Astronomy {
 	public static void Main() {
 		//TODO: legge inn tall på måner
+		Star sun = new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24));
+		sun.position[0] = 0;
+		sun.position[1] = 0;
+
 		List<SpaceObject> solarSystem = new List<SpaceObject>
 		{
-			new SpaceObject("Sun", "Yellow", 1390000),
+			//new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24)),
+			sun,
 			new Planet("Mercury", "Darkgrey", 2439, 57910, 88 * 24, 1416, 47, null),
 			new Planet("Venus", "Beige", 6051, 108200, 225 * 24, 243, 35, null),
 			new Planet("Earth", "Blue", 6371, 149600, 365 * 24, 24, 30,
@@ -44,29 +49,31 @@ class Astronomy {
 			new AsteroidBelt("The asteroid belt", "Grey Rock", 69420),
 			new Asteroid("243 Ida", "Grey", 16, 4280, 1767, 5, 420, null)
 		};
-		/*
-		foreach (SpaceObject obj in solarSystem) {
-			obj.Draw();
-			
-		}
-		*/
+
 		Console.Write("Please enter time: ");
 		String string_time = Console.ReadLine();
 		Console.Write("Please enter planet name: ");
 		String planet_name = Console.ReadLine();
 		int time = convert_time(string_time);
 
+
+		bool found = false;
+		SpaceObject space_object = sun;
 		foreach(SpaceObject obj in solarSystem)
 		{
 			if(obj.name == planet_name)
 			{
-				Console.WriteLine(obj.toString());
-				obj.updatePosition(time, solarSystem[0]);
-				Console.WriteLine(String.Format("x: {0}, y: {1}", obj.position[0], obj.position[1]));
+				space_object = obj;
+				found = true;
 			}
 		}
-
-		Console.WriteLine(planet_name);
+		if(found)
+		{
+			Console.WriteLine(space_object.toString());
+			space_object.updatePosition(time, solarSystem[0]);
+			Console.WriteLine(String.Format("x: {0}, y: {1}", space_object.position[0], space_object.position[1]));
+		}
+		Console.ReadLine();
 	}
 
 	public static int convert_time(String time)
