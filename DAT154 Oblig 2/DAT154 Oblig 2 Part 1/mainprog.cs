@@ -67,12 +67,13 @@ class Astronomy {
 				found = true;
 			}
 		}
-		if(found)
+		if(!found)
 		{
 			Console.WriteLine(space_object.toString());
 			space_object.updatePosition(time, solarSystem[0]);
 			Console.WriteLine(String.Format("x: {0}, y: {1}", space_object.position[0], space_object.position[1]));
 		}
+
 		Console.ReadLine();
 	}
 

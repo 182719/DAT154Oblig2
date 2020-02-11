@@ -48,6 +48,10 @@ namespace SpaceSim
             Console.Write("Star : ");
             base.Draw();
         }
+        public override string toString()
+        {
+            return base.toString();
+        }
     }
 
     public class Planet : SpaceObject

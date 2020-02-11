@@ -28,8 +28,8 @@ namespace WpfApp1
 			Star sun = new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24));
 			sun.position[0] = 0;
 			sun.position[1] = 0;
-
-            List<SpaceObject> solarSystem = SolarSystem.getSolarSystem(sun);
+            SolarSystem solar_system = new SolarSystem(sun);
+            List<SpaceObject> solarSystem = solar_system.getSolarSystem();
 		}
     }
 }

@@ -9,9 +9,11 @@ namespace WpfApp1
 {
     class SolarSystem
     {
-        public static List<SpaceObject> getSolarSystem(Star sun)
-        {
-            return new List<SpaceObject>
+
+		private List<SpaceObject> list;
+		public SolarSystem(Star sun)
+		{
+			list = new List<SpaceObject>
 			{
 				sun,
 				new Planet("Mercury", "Darkgrey", 2439, 57910, 88 * 24, 1416, 47, null),
@@ -52,5 +54,14 @@ namespace WpfApp1
 			};
 		}
 
+        public List<SpaceObject> getSolarSystem()
+        {
+			return this.list;
+		}
+
+		public void drawSolarSystem()
+		{
+
+		}
     }
 }
