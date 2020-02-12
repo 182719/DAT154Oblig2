@@ -9,13 +9,15 @@ namespace SpaceSim
         public String color { get; set; }
         public int radius { get; set; } //represented i km
         public double[] position { get; set; } = new double[2];
+        public List<SpaceObject> moonList { get; private set; }
 
 
-        public SpaceObject(String name, String color, int radius)
+        public SpaceObject(String name, String color, int radius, List<SpaceObject> moonList)
         {
             this.name = name;
             this.color = color;
             this.radius = radius;
+            this.moonList = moonList;
         }
         public virtual void Draw()
         {
@@ -37,7 +39,8 @@ namespace SpaceSim
         public int orbitalPeriod { get; set; } //represented in hours
         public int rotationalPeriod { get; set; } // represented in hours
 
-        public Star(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod) : base(name, color, radius)
+        public Star(String name, String color, int radius, int orbitalRadius,
+            int orbitalPeriod, int rotationalPeriod, List<SpaceObject> moonList) : base(name, color, radius, moonList)
         {
             this.orbitalRadius = orbitalRadius;
             this.orbitalPeriod = orbitalPeriod;
@@ -56,17 +59,15 @@ namespace SpaceSim
         public int orbitalPeriod { get; set; } //represented in hours
         public int orbitalSpeed { get; set; } // represented in km/s
         public int rotationalPeriod { get; set; } // represented in hours
-        public List<Moon> moonList { get; private set; }
 
 
         public Planet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod,
-            int rotationalPeriod, int orbitalSpeed, List<Moon> moonList) : base(name, color, radius)
+            int rotationalPeriod, int orbitalSpeed, List<SpaceObject> moonList) : base(name, color, radius, moonList)
         {
             this.orbitalRadius = orbitalRadius;
             this.orbitalPeriod = orbitalPeriod;
             this.orbitalSpeed = orbitalSpeed;
             this.rotationalPeriod = rotationalPeriod;
-            this.moonList = moonList;
         }
         public override void Draw()
         {
@@ -102,7 +103,7 @@ namespace SpaceSim
 
     public class Moon : Planet
     {
-        public Moon(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<Moon> moonList = null)
+        public Moon(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<SpaceObject> moonList = null)
             : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed, moonList) { }
         public override void Draw()
         {
@@ -113,7 +114,7 @@ namespace SpaceSim
     }
     public class DwarfPlanet : Planet
     {
-        public DwarfPlanet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<Moon> moonList)
+        public DwarfPlanet(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<SpaceObject> moonList)
             : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed, moonList) { }
         public override void Draw()
         {
@@ -129,7 +130,7 @@ namespace SpaceSim
         public int orbitalPeriod { get; set; }
         public int rotationalPeriod { get; set; }
 
-        public Comet(String name, String color, int radius) : base(name, color, radius)
+        public Comet(String name, String color, int radius, List<SpaceObject> moonList = null) : base(name, color, radius, moonList)
         {
             this.orbitalRadius = orbitalRadius;
             this.orbitalPeriod = orbitalPeriod;
@@ -143,7 +144,7 @@ namespace SpaceSim
     }
     public class AsteroidBelt : SpaceObject
     {
-        public AsteroidBelt(String name, String color, int radius) : base(name, color, radius) { }
+        public AsteroidBelt(String name, String color, int radius, List<SpaceObject> moonList = null) : base(name, color, radius, moonList) { }
         public override void Draw()
         {
             Console.Write("Asteroid belt : ");
@@ -152,7 +153,7 @@ namespace SpaceSim
     }
     public class Asteroid : Planet
     {
-        public Asteroid(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<Moon> moonList)
+        public Asteroid(String name, String color, int radius, int orbitalRadius, int orbitalPeriod, int rotationalPeriod, int orbitalSpeed, List<SpaceObject> moonList)
             : base(name, color, radius, orbitalRadius, orbitalPeriod, rotationalPeriod, orbitalSpeed, moonList) { }
         public override void Draw()
         {

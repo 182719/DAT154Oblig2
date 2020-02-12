@@ -21,24 +21,27 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<SpaceObject> solarSystem;
         public MainWindow()
         {
             InitializeComponent();
 
-			Star sun = new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24));
+			Star sun = new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24), null);
 			sun.position[0] = 0;
 			sun.position[1] = 0;
             SolarSystem solar_system = new SolarSystem(sun);
-            List<SpaceObject> solarSystem = solar_system.getSolarSystem();
+            this.solarSystem = solar_system.getSolarSystem();
             //drawSolarSystem(solarSystem);
 
-            this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun);
+            this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun, 10000);
+            SizeChanged += (s, o) => drawSolarSystem(solarSystem, sun, 10000);
 
         }
 
 
-        public void drawSolarSystem(List<SpaceObject> solar_system, Star sun)
+        public void drawSolarSystem(List<SpaceObject> solar_system, SpaceObject sun, int scale)
         {
+            myCanvas.Children.Clear();
 
             //TODO: DRAW SUN:
 
@@ -54,7 +57,7 @@ namespace WpfApp1
                 string type = obj.GetType().Name;
 
                 //Transforming to screenSpacePositon
-                double[] screenPos = transformSpacePosToScreenPos(obj.position, screenOffsetX, screenOffsetY);
+                double[] screenPos = transformSpacePosToScreenPos(obj.position, screenOffsetX, screenOffsetY, scale);
 
                 //Rendering information about object to screen
                 TextBox textBox = new TextBox();
@@ -63,25 +66,53 @@ namespace WpfApp1
                 Canvas.SetLeft(textBox, screenPos[0]);
                 Canvas.SetTop(textBox, screenPos[1]);
                 Ellipse ellipse = new Ellipse();
+                ellipse.Tag = obj.name;
                 SolidColorBrush solidColorBrush = new SolidColorBrush();
                 solidColorBrush.Color = Color.FromArgb(255, 255, 0, 1);
                 ellipse.Fill = solidColorBrush;
                 ellipse.StrokeThickness = 2;
                 ellipse.Stroke = Brushes.Black;
-                ellipse.Width = obj.radius / 10000;
-                ellipse.Height = obj.radius / 10000;
+                ellipse.Width = obj.radius / scale;
+                ellipse.Height = obj.radius / scale;
+                ellipse.MouseUp += zoomInOnObject;
                 myCanvas.Children.Add(ellipse);
-                Canvas.SetLeft(ellipse, screenPos[0]);
-                Canvas.SetTop(ellipse, screenPos[1]);
-
-
+                Canvas.SetLeft(ellipse, screenPos[0] - (ellipse.Width / 2));
+                Canvas.SetTop(ellipse, screenPos[1] - (ellipse.Height / 2));
             }
         }
 
-        private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY)
+        private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY, int scale)
         {
-            double[] screenPos = { sOX + position[0] / 10000, sOY + position[1] / 10000 };
+            double[] screenPos = { sOX + position[0] / scale, sOY + position[1] / scale };
             return screenPos;
+        }
+
+        void zoomInOnObject(object sender, RoutedEventArgs e)
+        {
+            Ellipse ellipse = sender as Ellipse;
+            if (ellipse != null)
+            {
+                SpaceObject current_object = null;
+                foreach(SpaceObject so in solarSystem)
+                {
+                    if(so.name == (String)ellipse.Tag)
+                    {
+                        current_object = so;
+                    }
+                }
+
+                if (current_object != null)
+                {
+                    if (current_object.moonList != null)
+                    {
+                        myCanvas.Children.Clear();
+                        drawSolarSystem(current_object.moonList, current_object, 10);
+                    }
+
+                }
+
+
+            }
         }
     }
 }
