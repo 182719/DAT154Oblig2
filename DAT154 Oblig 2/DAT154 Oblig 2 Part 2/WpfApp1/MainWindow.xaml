@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Canvas Name ="myCanvas" Margin="0, 0, 0, 0"/>
-    </Grid>
-    
+    <Canvas Name ="myCanvas" Margin="0, 0, 0, 0" Grid.ColumnSpan="2">
+        <StackPanel>
+            <CheckBox Margin="10,10,10,10" Name="ShowTextCheckbox" Content="Vis tekst" Checked="HandleTextCheck" Unchecked="HandleTextUnchecked" IsChecked="True" Height="26" Width="80" Background="White"/>
+        </StackPanel>
+        
+        
+    </Canvas>
 </Window>

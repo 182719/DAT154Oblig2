@@ -21,6 +21,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool ShowTextBool;
         private List<SpaceObject> solarSystem;
         public MainWindow()
         {
@@ -41,7 +42,7 @@ namespace WpfApp1
 
         public void drawSolarSystem(List<SpaceObject> solar_system, SpaceObject sun, int scale)
         {
-            myCanvas.Children.Clear();
+            ClearCanvasSpaceObj();
 
             //TODO: DRAW SUN:
 
@@ -60,11 +61,16 @@ namespace WpfApp1
                 double[] screenPos = transformSpacePosToScreenPos(obj.position, screenOffsetX, screenOffsetY, scale);
 
                 //Rendering information about object to screen
-                TextBox textBox = new TextBox();
-                textBox.Text = type + ": "+ obj.name;
-                myCanvas.Children.Add(textBox);
-                Canvas.SetLeft(textBox, screenPos[0]);
-                Canvas.SetTop(textBox, screenPos[1]);
+
+                if(ShowTextBool)
+                {
+                    TextBox textBox = new TextBox();
+                    textBox.Text = type + ": "+ obj.name;
+                    myCanvas.Children.Add(textBox);
+                    Canvas.SetLeft(textBox, screenPos[0]);
+                    Canvas.SetTop(textBox, screenPos[1]);
+                }
+
                 Ellipse ellipse = new Ellipse();
                 ellipse.Tag = obj.name;
                 SolidColorBrush solidColorBrush = new SolidColorBrush();
@@ -81,11 +87,31 @@ namespace WpfApp1
             }
         }
 
+        private void ClearCanvasSpaceObj()
+        {
+            for (int i = myCanvas.Children.Count - 1; i >= 0; i += -1)
+            {
+                UIElement Child = myCanvas.Children[i];
+                if (Child is TextBox || Child is Ellipse)
+                    myCanvas.Children.Remove(Child);
+            }
+        }
+
         private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY, int scale)
         {
             double[] screenPos = { sOX + position[0] / scale, sOY + position[1] / scale };
             return screenPos;
         }
+        private void HandleTextCheck(object sender, RoutedEventArgs e)
+        {
+            ShowTextBool = true;
+        }
+
+        private void HandleTextUnchecked(object sender, RoutedEventArgs e)
+        {
+            ShowTextBool = false;
+        }
+
 
         void zoomInOnObject(object sender, RoutedEventArgs e)
         {
