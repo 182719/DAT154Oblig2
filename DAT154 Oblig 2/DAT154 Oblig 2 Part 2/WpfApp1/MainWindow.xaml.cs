@@ -108,10 +108,7 @@ namespace WpfApp1
                         myCanvas.Children.Clear();
                         drawSolarSystem(current_object.moonList, current_object, 10);
                     }
-
                 }
-
-
             }
         }
     }

@@ -49,7 +49,7 @@ namespace WpfApp1
 						new Moon("Naiad", "Grey", 29, 48000 / 1000, (int)(0.29 * 24), 0, 12)
 					}),
 				new DwarfPlanet("Pluto", "Steel Red", 1188, 5913520, 90550, 6387 * 24, 4743, null),
-				new AsteroidBelt("The asteroid belt", "Grey Rock", 69420),
+				//new AsteroidBelt("The asteroid belt", "Grey Rock", 69420),
 				new Asteroid("243 Ida", "Grey", 16, 4280, 1767, 5, 420, null)
 			};
 		}
