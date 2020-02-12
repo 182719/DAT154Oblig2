@@ -30,7 +30,7 @@ namespace WpfApp1
 			Star sun = new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24), null);
 			sun.position[0] = 0;
 			sun.position[1] = 0;
-            SolarSystem solar_system = new SolarSystem(sun);
+            SolarSystem solar_system = new SolarSystem();
             this.solarSystem = solar_system.getSolarSystem();
             //drawSolarSystem(solarSystem);
 
@@ -44,12 +44,28 @@ namespace WpfApp1
         {
             ClearCanvasSpaceObj();
 
-            //TODO: DRAW SUN:
+
+            //solar_system.Insert(0, sun);
+
 
             //TODO: DRAW all sub-objects in solar_system
 
             double screenOffsetX = myCanvas.RenderSize.Width / 2;
             double screenOffsetY = myCanvas.RenderSize.Height / 2;
+            //TODO: DRAW SUN:
+            Ellipse ellipse1 = new Ellipse();
+            SolidColorBrush solidColorBrush1 = new SolidColorBrush();
+            solidColorBrush1.Color = Color.FromArgb(255, 255, 0, 1);
+            ellipse1.Fill = solidColorBrush1;
+            ellipse1.StrokeThickness = 2;
+            ellipse1.Stroke = Brushes.Black;
+            ellipse1.Width = sun.radius / scale;
+            ellipse1.Height = sun.radius / scale;
+            ellipse1.MouseUp += zoomInOnObject;
+            Canvas.SetLeft(ellipse1, screenOffsetX - (ellipse1.Width / 2));
+            Canvas.SetTop(ellipse1, screenOffsetX - (ellipse1.Height / 2));
+            myCanvas.Children.Add(ellipse1);
+
             foreach (SpaceObject obj in solar_system) {
 
                 obj.updatePosition(100, sun);
@@ -98,7 +114,7 @@ namespace WpfApp1
         }
 
         private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY, int scale)
-        {
+        { 
             double[] screenPos = { sOX + position[0] / scale, sOY + position[1] / scale };
             return screenPos;
         }
@@ -132,7 +148,8 @@ namespace WpfApp1
                     if (current_object.moonList != null)
                     {
                         myCanvas.Children.Clear();
-                        drawSolarSystem(current_object.moonList, current_object, 10);
+                        //current_object.moonList.Insert(0, current_object);
+                        drawSolarSystem(current_object.moonList, current_object, 200);
                     }
                 }
             }

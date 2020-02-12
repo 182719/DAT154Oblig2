@@ -90,7 +90,7 @@ namespace SpaceSim
 
             if (moonList != null)
             {
-                foreach (Moon moon in this.moonList)
+                foreach (SpaceObject moon in this.moonList)
                 {
                     moon.updatePosition(time, this);
                 }

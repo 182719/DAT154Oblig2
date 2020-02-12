@@ -11,11 +11,10 @@ namespace WpfApp1
     {
 
 		private List<SpaceObject> list { get; set; }
-		public SolarSystem(Star sun)
+		public SolarSystem()
 		{
 			list = new List<SpaceObject>
 			{
-				sun,
 				new Planet("Mercury", "Darkgrey", 2439, 57910, 88 * 24, 1416, 47, null),
 				new Planet("Venus", "Beige", 6051, 108200, 225 * 24, 243, 35, null),
 				new Planet("Earth", "Blue", 6371, 149600, 365 * 24, 24, 30,
