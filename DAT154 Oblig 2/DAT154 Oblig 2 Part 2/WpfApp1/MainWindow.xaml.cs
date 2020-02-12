@@ -53,6 +53,8 @@ namespace WpfApp1
             double screenOffsetX = myCanvas.RenderSize.Width / 2;
             double screenOffsetY = myCanvas.RenderSize.Height / 2;
             //TODO: DRAW SUN:
+            double[] screenPos1 = transformSpacePosToScreenPos(sun.position, screenOffsetX, screenOffsetY, scale);
+
             Ellipse ellipse1 = new Ellipse();
             SolidColorBrush solidColorBrush1 = new SolidColorBrush();
             solidColorBrush1.Color = Color.FromArgb(255, 255, 0, 1);
@@ -62,8 +64,8 @@ namespace WpfApp1
             ellipse1.Width = sun.radius / scale;
             ellipse1.Height = sun.radius / scale;
             ellipse1.MouseUp += zoomInOnObject;
-            Canvas.SetLeft(ellipse1, screenOffsetX - (ellipse1.Width / 2));
-            Canvas.SetTop(ellipse1, screenOffsetX - (ellipse1.Height / 2));
+            Canvas.SetLeft(ellipse1, screenPos1[0] - (ellipse1.Width / 2));
+            Canvas.SetTop(ellipse1, screenPos1[1] - (ellipse1.Height / 2));
             myCanvas.Children.Add(ellipse1);
 
             foreach (SpaceObject obj in solar_system) {
@@ -149,7 +151,7 @@ namespace WpfApp1
                     {
                         myCanvas.Children.Clear();
                         //current_object.moonList.Insert(0, current_object);
-                        drawSolarSystem(current_object.moonList, current_object, 200);
+                        drawSolarSystem(current_object.moonList, current_object, 20);
                     }
                 }
             }
