@@ -23,6 +23,10 @@ namespace WpfApp1
     {
         private bool ShowTextBool;
         private List<SpaceObject> solarSystem;
+        private List<SpaceObject> currentList;
+        private SpaceObject parent;
+        private int scale;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,15 +36,19 @@ namespace WpfApp1
 			sun.position[1] = 0;
             SolarSystem solar_system = new SolarSystem();
             this.solarSystem = solar_system.getSolarSystem();
+            currentList = solarSystem;
+            parent = sun;
+            this.scale = 10000;
             //drawSolarSystem(solarSystem);
 
-            this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun, 10000);
-            SizeChanged += (s, o) => drawSolarSystem(solarSystem, sun, 10000);
+
+            this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun);
+            SizeChanged += (s, o) => drawSolarSystem(currentList, parent);
 
         }
 
 
-        public void drawSolarSystem(List<SpaceObject> solar_system, SpaceObject sun, int scale)
+        public void drawSolarSystem(List<SpaceObject> solar_system, SpaceObject center_planet)
         {
             ClearCanvasSpaceObj();
 
@@ -49,12 +57,14 @@ namespace WpfApp1
 
 
             //TODO: DRAW all sub-objects in solar_system
-            sun.position = new double[] { 0, 0 }; 
+            center_planet.position = new double[] { 0, 0 }; 
 
             double screenOffsetX = myCanvas.RenderSize.Width / 2;
             double screenOffsetY = myCanvas.RenderSize.Height / 2;
             //TODO: DRAW SUN:
-            double[] screenPos1 = transformSpacePosToScreenPos(sun.position, screenOffsetX, screenOffsetY, scale);
+            double[] screenPos1 = transformSpacePosToScreenPos(center_planet.position, screenOffsetX, screenOffsetY);
+
+            drawText(center_planet, screenPos1);
 
             Ellipse ellipse1 = new Ellipse();
             SolidColorBrush solidColorBrush1 = new SolidColorBrush();
@@ -62,8 +72,8 @@ namespace WpfApp1
             ellipse1.Fill = solidColorBrush1;
             ellipse1.StrokeThickness = 2;
             ellipse1.Stroke = Brushes.Black;
-            ellipse1.Width = sun.radius / scale;
-            ellipse1.Height = sun.radius / scale;
+            ellipse1.Width = center_planet.radius / scale;
+            ellipse1.Height = center_planet.radius / scale;
             ellipse1.MouseUp += zoomInOnObject;
             Canvas.SetLeft(ellipse1, screenPos1[0] - (ellipse1.Width / 2));
             Canvas.SetTop(ellipse1, screenPos1[1] - (ellipse1.Height / 2));
@@ -71,24 +81,18 @@ namespace WpfApp1
 
             foreach (SpaceObject obj in solar_system) {
 
-                obj.updatePosition(100, sun);
+                obj.updatePosition(100, center_planet);
                 
                 //Getting information from obj
-                string type = obj.GetType().Name;
+                //string type = obj.GetType().Name;
 
                 //Transforming to screenSpacePositon
-                double[] screenPos = transformSpacePosToScreenPos(obj.position, screenOffsetX, screenOffsetY, scale);
+                double[] screenPos = transformSpacePosToScreenPos(obj.position, screenOffsetX, screenOffsetY);
 
                 //Rendering information about object to screen
 
-                if(ShowTextBool)
-                {
-                    TextBox textBox = new TextBox();
-                    textBox.Text = type + ": "+ obj.name;
-                    myCanvas.Children.Add(textBox);
-                    Canvas.SetLeft(textBox, screenPos[0]);
-                    Canvas.SetTop(textBox, screenPos[1]);
-                }
+
+                drawText(obj, screenPos);
 
                 Ellipse ellipse = new Ellipse();
                 ellipse.Tag = obj.name;
@@ -97,12 +101,25 @@ namespace WpfApp1
                 ellipse.Fill = solidColorBrush;
                 ellipse.StrokeThickness = 2;
                 ellipse.Stroke = Brushes.Black;
-                ellipse.Width = obj.radius / scale;
-                ellipse.Height = obj.radius / scale;
+                ellipse.Width = obj.radius / this.scale;
+                ellipse.Height = obj.radius / this.scale;
                 ellipse.MouseUp += zoomInOnObject;
                 myCanvas.Children.Add(ellipse);
                 Canvas.SetLeft(ellipse, screenPos[0] - (ellipse.Width / 2));
                 Canvas.SetTop(ellipse, screenPos[1] - (ellipse.Height / 2));
+            }
+        }
+
+        private void drawText(SpaceObject obj, double[] screenPos)
+        {
+            if (ShowTextBool)
+            {
+                TextBox textBox = new TextBox();
+                textBox.Text = obj.GetType().Name + ": " + obj.name;
+                Panel.SetZIndex(textBox, 1);
+                myCanvas.Children.Add(textBox);
+                Canvas.SetLeft(textBox, screenPos[0]);
+                Canvas.SetTop(textBox, screenPos[1]);
             }
         }
 
@@ -116,9 +133,9 @@ namespace WpfApp1
             }
         }
 
-        private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY, int scale)
+        private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY)
         { 
-            double[] screenPos = { sOX + position[0] / scale, sOY + position[1] / scale };
+            double[] screenPos = { sOX + position[0] / this.scale, sOY + position[1] / this.scale };
             return screenPos;
         }
         private void HandleTextCheck(object sender, RoutedEventArgs e)
@@ -152,7 +169,10 @@ namespace WpfApp1
                     {
                         myCanvas.Children.Clear();
                         //current_object.moonList.Insert(0, current_object);
-                        drawSolarSystem(current_object.moonList, current_object, 1000);
+                        this.parent = current_object;
+                        this.currentList = current_object.moonList;
+                        this.scale = 500;
+                        drawSolarSystem(currentList, parent);
                     }
                 }
             }
