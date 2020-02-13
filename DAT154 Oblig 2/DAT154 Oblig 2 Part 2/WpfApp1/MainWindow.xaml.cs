@@ -41,8 +41,6 @@ namespace WpfApp1
             parent = sun;
             this.scale = 10000;
             this.isZoomed = false;
-            //drawSolarSystem(solarSystem);
-
 
             this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun);
             SizeChanged += (s, o) => drawSolarSystem(currentList, parent);
@@ -51,6 +49,8 @@ namespace WpfApp1
                 if (isZoomed)
                 {
                     this.scale = 10000;
+                    this.parent = sun;
+                    this.currentList = solarSystem;
                     drawSolarSystem(solarSystem, sun);
                 }
             };
@@ -61,10 +61,6 @@ namespace WpfApp1
         public void drawSolarSystem(List<SpaceObject> solar_system, SpaceObject center_planet)
         {
             ClearCanvasSpaceObj();
-
-
-            //solar_system.Insert(0, sun);
-
 
             //TODO: DRAW all sub-objects in solar_system
             center_planet.position = new double[] { 0, 0 }; 
@@ -113,7 +109,7 @@ namespace WpfApp1
                 ellipse.Stroke = Brushes.Black;
                 ellipse.Width = obj.radius / this.scale;
                 ellipse.Height = obj.radius / this.scale;
-                ellipse.MouseUp += zoomInOnObject;
+                ellipse.MouseDown += zoomInOnObject;
                 myCanvas.Children.Add(ellipse);
                 Canvas.SetLeft(ellipse, screenPos[0] - (ellipse.Width / 2));
                 Canvas.SetTop(ellipse, screenPos[1] - (ellipse.Height / 2));

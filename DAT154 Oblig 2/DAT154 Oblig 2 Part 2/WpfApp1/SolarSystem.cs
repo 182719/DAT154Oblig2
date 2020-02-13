@@ -51,6 +51,7 @@ namespace WpfApp1
 				//new AsteroidBelt("The asteroid belt", "Grey Rock", 69420),
 				new Asteroid("243 Ida", "Grey", 16, 4280, 1767, 5, 420, null)
 			};
+			
 		}
 
         public List<SpaceObject> getSolarSystem()
