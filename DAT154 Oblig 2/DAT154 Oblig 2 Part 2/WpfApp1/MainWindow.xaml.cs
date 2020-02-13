@@ -49,6 +49,7 @@ namespace WpfApp1
 
 
             //TODO: DRAW all sub-objects in solar_system
+            sun.position = new double[] { 0, 0 }; 
 
             double screenOffsetX = myCanvas.RenderSize.Width / 2;
             double screenOffsetY = myCanvas.RenderSize.Height / 2;
@@ -151,7 +152,7 @@ namespace WpfApp1
                     {
                         myCanvas.Children.Clear();
                         //current_object.moonList.Insert(0, current_object);
-                        drawSolarSystem(current_object.moonList, current_object, 20);
+                        drawSolarSystem(current_object.moonList, current_object, 1000);
                     }
                 }
             }
