@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceSim
 {
@@ -51,6 +52,15 @@ namespace SpaceSim
             Console.Write("Star : ");
             base.Draw();
         }
+        public override string toString()
+        {
+            return String.Format(
+                                "Stjerne Informasjon: \n Navn: {0} \n Radius: {1} \n Rotasjonsperiode: \n {2} ",
+                                this.name,
+                                this.radius,
+                                this.rotationalPeriod);
+                              
+        }
     }
 
     public class Planet : SpaceObject
@@ -96,6 +106,23 @@ namespace SpaceSim
                 }
             }
             return this.position;
+        }
+
+        public override string toString()
+        {
+            return String.Format(
+                                "Planet Informasjon: \n Navn: {0} " +
+                                "\n Radius: {1} " +
+                                "\n Orbitalradius: {2} " +
+                                "\n Orbitalfart: {3} " +
+                                "\n Orbitalperiode: {4}" +
+                                "\n Måner: \n {5} ",
+                                this.name,
+                                this.radius,
+                                this.orbitalRadius,
+                                this.orbitalSpeed,
+                                this.orbitalPeriod,
+                                String.Join("\n ", this.moonList.Select(x => x.name.ToString())));
         }
 
 

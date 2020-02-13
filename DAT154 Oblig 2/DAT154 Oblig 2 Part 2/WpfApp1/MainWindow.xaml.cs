@@ -167,7 +167,8 @@ namespace WpfApp1
                 {
                     if (current_object.moonList != null)
                     {
-                        myCanvas.Children.Clear();
+                        PlanetInfoBox.Text = current_object.toString();
+                        ClearCanvasSpaceObj();
                         //current_object.moonList.Insert(0, current_object);
                         this.parent = current_object;
                         this.currentList = current_object.moonList;

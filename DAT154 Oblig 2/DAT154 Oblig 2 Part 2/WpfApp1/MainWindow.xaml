@@ -8,9 +8,11 @@
         Title="MainWindow" Height="450" Width="800">
     <Canvas Name ="myCanvas" Margin="0, 0, 0, 0" Grid.ColumnSpan="2">
         <StackPanel>
-            <CheckBox Margin="10,10,10,10" Name="ShowTextCheckbox" Content="Vis tekst" Checked="HandleTextCheck" Unchecked="HandleTextUnchecked" IsChecked="True" Height="26" Width="80" Background="White"/>
+            <CheckBox Margin="10,10,10,10" Name="ShowTextCheckbox" Content="Vis etiketter" Checked="HandleTextCheck" Unchecked="HandleTextUnchecked" IsChecked="True" Height="18" Width="104" Background="White"/>
+            <TextBox Name="PlanetInfoBox" Canvas.Left="137" TextWrapping="NoWrap" Text="" Canvas.Top="46" BorderThickness="0"/>
         </StackPanel>
-        
-        
+
+
+
     </Canvas>
 </Window>
