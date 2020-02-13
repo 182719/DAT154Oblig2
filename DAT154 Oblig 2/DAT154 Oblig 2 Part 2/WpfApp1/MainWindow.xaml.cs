@@ -25,7 +25,8 @@ namespace WpfApp1
         private List<SpaceObject> solarSystem;
         private List<SpaceObject> currentList;
         private SpaceObject parent;
-        private int scale;
+        private double distanceScale;
+        private double spaceObjDrawScale;
         private bool isZoomed;
         private TimeController timeController;
 
@@ -45,9 +46,14 @@ namespace WpfApp1
                 timeController.MYTICK += (s,o) => v.updatePosition(o.Time, parent);
             }
 
-            this.scale = 10000;
+            this.distanceScale = 5000;
+            this.spaceObjDrawScale = 1000; 
             this.isZoomed = false;
 
+            //EVENTS:
+            IncreaseRateButton.Click += (s, o) => timeController.increaseRate();
+            DecreaseRateButton.Click += (s, o) => timeController.decreaseRate();
+            StartStopButton.Click += (s, o) => timeController.StartStopTimer();
             this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun);
             SizeChanged += (s, o) => drawSolarSystem(currentList, parent);
             timeController.MYTICK += (s, o) => drawSolarSystem(currentList, parent);
@@ -55,7 +61,8 @@ namespace WpfApp1
             {
                 if (isZoomed)
                 {
-                    this.scale = 10000;
+                    this.distanceScale = 5000;
+                    this.spaceObjDrawScale = 1000;
                     this.parent = sun;
                     this.currentList = solarSystem;
                     drawSolarSystem(solarSystem, sun);
@@ -78,23 +85,34 @@ namespace WpfApp1
             double[] screenPos1 = transformSpacePosToScreenPos(center_planet.position, screenOffsetX, screenOffsetY);
 
             drawText(center_planet, screenPos1);
-
+            
             Ellipse ellipse1 = new Ellipse();
             SolidColorBrush solidColorBrush1 = new SolidColorBrush();
             solidColorBrush1.Color = Color.FromArgb(255, 255, 0, 1);
             ellipse1.Fill = solidColorBrush1;
             ellipse1.StrokeThickness = 2;
             ellipse1.Stroke = Brushes.Black;
-            ellipse1.Width = center_planet.radius / scale;
-            ellipse1.Height = center_planet.radius / scale;
+            double centerPlanetDimension;
+
+            //TODO: WHY VIRKER IKKE DETTE? 
+            if (center_planet.GetType().Name.Equals("Star"))
+            {
+                centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale* 10);
+            } else
+            {
+                centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale * 50);
+            }
+            ellipse1.Width = (int)centerPlanetDimension;
+            ellipse1.Height = (int)centerPlanetDimension;
+
+            /// 
             ellipse1.MouseUp += zoomInOnObject;
             Canvas.SetLeft(ellipse1, screenPos1[0] - (ellipse1.Width / 2));
             Canvas.SetTop(ellipse1, screenPos1[1] - (ellipse1.Height / 2));
             myCanvas.Children.Add(ellipse1);
-
+            
             foreach (SpaceObject obj in solar_system) {
 
-                //obj.updatePosition(100, center_planet);
                 
                 //Getting information from obj
                 //string type = obj.GetType().Name;
@@ -114,8 +132,8 @@ namespace WpfApp1
                 ellipse.Fill = solidColorBrush;
                 ellipse.StrokeThickness = 2;
                 ellipse.Stroke = Brushes.Black;
-                ellipse.Width = obj.radius / this.scale;
-                ellipse.Height = obj.radius / this.scale;
+                ellipse.Width = obj.radius / this.spaceObjDrawScale;
+                ellipse.Height = obj.radius / this.spaceObjDrawScale;
                 ellipse.MouseDown += zoomInOnObject;
                 myCanvas.Children.Add(ellipse);
                 Canvas.SetLeft(ellipse, screenPos[0] - (ellipse.Width / 2));
@@ -148,7 +166,7 @@ namespace WpfApp1
 
         private double[] transformSpacePosToScreenPos(double[] position, double sOX, double sOY)
         { 
-            double[] screenPos = { sOX + position[0] / this.scale, sOY + position[1] / this.scale };
+            double[] screenPos = { sOX + position[0] / this.distanceScale, sOY + position[1] / this.distanceScale };
             return screenPos;
         }
         private void HandleTextCheck(object sender, RoutedEventArgs e)
@@ -191,7 +209,8 @@ namespace WpfApp1
                         //current_object.moonList.Insert(0, current_object);
                         this.parent = current_object;
                         this.currentList = current_object.moonList;
-                        this.scale = 500;
+                        this.distanceScale = 5;
+                        this.spaceObjDrawScale = 10;
                         this.isZoomed = true;
                         drawSolarSystem(currentList, parent);
                     }
