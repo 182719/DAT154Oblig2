@@ -26,6 +26,7 @@ namespace WpfApp1
         private List<SpaceObject> currentList;
         private SpaceObject parent;
         private int scale;
+        private bool isZoomed;
 
         public MainWindow()
         {
@@ -39,11 +40,20 @@ namespace WpfApp1
             currentList = solarSystem;
             parent = sun;
             this.scale = 10000;
+            this.isZoomed = false;
             //drawSolarSystem(solarSystem);
 
 
             this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun);
             SizeChanged += (s, o) => drawSolarSystem(currentList, parent);
+            MouseRightButtonDown += (s, o) =>
+            {
+                if (isZoomed)
+                {
+                    this.scale = 10000;
+                    drawSolarSystem(solarSystem, sun);
+                }
+            };
 
         }
 
@@ -173,6 +183,7 @@ namespace WpfApp1
                         this.parent = current_object;
                         this.currentList = current_object.moonList;
                         this.scale = 500;
+                        this.isZoomed = true;
                         drawSolarSystem(currentList, parent);
                     }
                 }
