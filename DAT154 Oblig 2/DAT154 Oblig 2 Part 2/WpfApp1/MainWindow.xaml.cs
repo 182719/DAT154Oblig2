@@ -27,11 +27,12 @@ namespace WpfApp1
         private SpaceObject parent;
         private int scale;
         private bool isZoomed;
+        private TimeController timeController;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            timeController = new TimeController();
 			Star sun = new Star("Sun", "Yellow", 1390000, 0, 0, (27 * 24), null);
 			sun.position[0] = 0;
 			sun.position[1] = 0;
@@ -39,11 +40,17 @@ namespace WpfApp1
             this.solarSystem = solar_system.getSolarSystem();
             currentList = solarSystem;
             parent = sun;
+            foreach(SpaceObject v in solarSystem)
+            {
+                timeController.MYTICK += (s,o) => v.updatePosition(o.Time, parent);
+            }
+
             this.scale = 10000;
             this.isZoomed = false;
 
             this.Loaded += (s,o) => drawSolarSystem(solarSystem, sun);
             SizeChanged += (s, o) => drawSolarSystem(currentList, parent);
+            timeController.MYTICK += (s, o) => drawSolarSystem(currentList, parent);
             MouseRightButtonDown += (s, o) =>
             {
                 if (isZoomed)
@@ -87,7 +94,7 @@ namespace WpfApp1
 
             foreach (SpaceObject obj in solar_system) {
 
-                obj.updatePosition(100, center_planet);
+                //obj.updatePosition(100, center_planet);
                 
                 //Getting information from obj
                 //string type = obj.GetType().Name;
@@ -147,11 +154,17 @@ namespace WpfApp1
         private void HandleTextCheck(object sender, RoutedEventArgs e)
         {
             ShowTextBool = true;
+            if(this.parent != null)
+            {
+                drawSolarSystem(this.currentList, this.parent);
+            }
+            
         }
 
         private void HandleTextUnchecked(object sender, RoutedEventArgs e)
         {
             ShowTextBool = false;
+            drawSolarSystem(this.currentList, this.parent);
         }
 
 
