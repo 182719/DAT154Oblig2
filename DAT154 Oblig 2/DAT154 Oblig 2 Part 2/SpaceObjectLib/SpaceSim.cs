@@ -88,16 +88,16 @@ namespace SpaceSim
         {
             double offsetX = 0;
             double offsetY = 0;
-            /*
+            
             if (spaceObject != null)
             {
                 offsetX = spaceObject.position[0] + spaceObject.radius;
                 offsetY = spaceObject.position[1] + spaceObject.radius;
             }
-            */
+            
 
-            this.position[0] = offsetX + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            this.position[1] = offsetY + Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+            this.position[0] =  Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
+            this.position[1] =  Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
 
             if (moonList != null)
             {
@@ -142,15 +142,15 @@ namespace SpaceSim
         {
             double offsetX = 0;
             double offsetY = 0;
-            /*
+            
             if (spaceObject != null)
             {
                 offsetX = spaceObject.position[0] + spaceObject.radius;
                 offsetY = spaceObject.position[1] + spaceObject.radius;
             }
-            */
-            this.position[0] = offsetX + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            this.position[1] = offsetY + Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+            
+            this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
+            this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
 
             if (moonList != null)
             {
@@ -176,15 +176,15 @@ namespace SpaceSim
         {
             double offsetX = 0;
             double offsetY = 0;
-            /*
+            
             if (spaceObject != null)
             {
                 offsetX = spaceObject.position[0] + spaceObject.radius;
                 offsetY = spaceObject.position[1] + spaceObject.radius;
             }
-            */
-            this.position[0] = offsetX + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            this.position[1] = offsetY + Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+            
+            this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
+            this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
 
             if (moonList != null)
             {
@@ -240,15 +240,15 @@ namespace SpaceSim
         {
             double offsetX = 0;
             double offsetY = 0;
-            /*
+            
             if (spaceObject != null)
             {
                 offsetX = spaceObject.position[0] + spaceObject.radius;
                 offsetY = spaceObject.position[1] + spaceObject.radius;
             }
-            */
-            this.position[0] = offsetX + Math.Cos(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
-            this.position[1] = offsetY + Math.Sin(time * orbitalSpeed * 3.1416 / 180) * orbitalRadius;
+
+            this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
+            this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
 
             if (moonList != null)
             {
