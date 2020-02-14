@@ -122,6 +122,16 @@ namespace WpfApp1
 
                 //Rendering information about object to screen
 
+                //Draw orbit
+                Ellipse orbit = new Ellipse();
+                orbit.Stroke = Brushes.Black;
+                double radius = distance(new double[] { screenOffsetX, screenOffsetY }, screenPos);
+                radius = Math.Abs(radius);
+                orbit.Width = radius * 2;
+                orbit.Height = radius * 2;
+                myCanvas.Children.Add(orbit);
+                Canvas.SetLeft(orbit, screenOffsetX - radius);
+                Canvas.SetTop(orbit, screenOffsetY - radius);
 
                 drawText(obj, screenPos);
 
@@ -139,6 +149,12 @@ namespace WpfApp1
                 Canvas.SetLeft(ellipse, screenPos[0] - (ellipse.Width / 2));
                 Canvas.SetTop(ellipse, screenPos[1] - (ellipse.Height / 2));
             }
+        }
+        private double distance(double[] a, double[] b)
+        {
+            double dx = a[0] - b[0];
+            double dy = a[1] - b[1];
+            return Math.Sqrt(dx * dx + dy * dy);
         }
 
         private void drawText(SpaceObject obj, double[] screenPos)
