@@ -43,7 +43,11 @@ namespace WpfApp1
             parent = sun;
             foreach(SpaceObject v in solarSystem)
             {
-                timeController.MYTICK += (s,o) => v.updatePosition(o.Time, parent);
+                if((v is Planet))
+                {
+                    timeController.MYTICK += (s,o) => v.updatePosition(o.Time, parent);
+                }
+                
             }
 
             this.distanceScale = 5000;
@@ -95,12 +99,12 @@ namespace WpfApp1
             double centerPlanetDimension;
 
             //TODO: WHY VIRKER IKKE DETTE? 
-            if (center_planet.GetType().Name.Equals("Star"))
+            if (center_planet is Star)
             {
                 centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale* 10);
             } else
             {
-                centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale * 10);
+                centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale * 5);
             }
             ellipse1.Width = (int)centerPlanetDimension;
             ellipse1.Height = (int)centerPlanetDimension;
@@ -225,7 +229,7 @@ namespace WpfApp1
                         //current_object.moonList.Insert(0, current_object);
                         this.parent = current_object;
                         this.currentList = current_object.moonList;
-                        this.distanceScale = 10000;
+                        this.distanceScale = 5000;
                         this.spaceObjDrawScale = 100;
                         this.isZoomed = true;
                         drawSolarSystem(currentList, parent);

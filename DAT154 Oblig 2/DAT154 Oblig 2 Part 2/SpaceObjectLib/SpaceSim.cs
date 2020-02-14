@@ -34,9 +34,8 @@ namespace SpaceSim
         {
             return String.Format("Name: {0}, Color: {1}, Radius {2} ", this.name, this.color, this.radius);
         }
-        public virtual double[] updatePosition(double time, SpaceObject spaceObject)
+        public virtual void updatePosition(double time, SpaceObject spaceObject)
         {
-            return this.position;
         }
     }
 
@@ -90,7 +89,7 @@ namespace SpaceSim
             Console.Write("Planet: ");
             base.Draw();
         }
-        public override double[] updatePosition(double time, SpaceObject spaceObject)
+        public override void updatePosition(double time, SpaceObject spaceObject)
         {
             double offsetX = 0;
             double offsetY = 0;
@@ -104,7 +103,7 @@ namespace SpaceSim
 
             this.position[0] =  Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
             this.position[1] =  Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
-
+            
             if (moonList != null)
             {
                 foreach (SpaceObject moon in this.moonList)
@@ -112,7 +111,6 @@ namespace SpaceSim
                     moon.updatePosition(time, this);
                 }
             }
-            return this.position;
         }
 
         public override string toString()
@@ -144,28 +142,28 @@ namespace SpaceSim
             Console.Write("Moon : ");
             base.Draw();
         }
-        public override double[] updatePosition(double time, SpaceObject spaceObject)
+        public override void updatePosition(double time, SpaceObject spaceObject)
         {
             double offsetX = 0;
             double offsetY = 0;
             
             if (spaceObject != null)
             {
-                offsetX = spaceObject.position[0] + spaceObject.radius;
-                offsetY = spaceObject.position[1] + spaceObject.radius;
+                offsetX = spaceObject.radius * 10;
+                offsetY = spaceObject.radius * 10;
             }
             
+
             this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
             this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
 
             if (moonList != null)
             {
-                foreach (Moon moon in this.moonList)
+                foreach (SpaceObject moon in this.moonList)
                 {
                     moon.updatePosition(time, this);
                 }
             }
-            return this.position;
         }
 
     }
@@ -177,29 +175,6 @@ namespace SpaceSim
         {
             Console.Write("Dwarf planet : ");
             base.Draw();
-        }
-        public override double[] updatePosition(double time, SpaceObject spaceObject)
-        {
-            double offsetX = 0;
-            double offsetY = 0;
-            
-            if (spaceObject != null)
-            {
-                offsetX = spaceObject.position[0] + spaceObject.radius;
-                offsetY = spaceObject.position[1] + spaceObject.radius;
-            }
-            
-            this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
-            this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
-
-            if (moonList != null)
-            {
-                foreach (Moon moon in this.moonList)
-                {
-                    moon.updatePosition(time, this);
-                }
-            }
-            return this.position;
         }
     }
 
@@ -241,29 +216,6 @@ namespace SpaceSim
         {
             Console.Write("Asteroid : ");
             base.Draw();
-        }
-        public override double[] updatePosition(double time, SpaceObject spaceObject)
-        {
-            double offsetX = 0;
-            double offsetY = 0;
-            
-            if (spaceObject != null)
-            {
-                offsetX = spaceObject.position[0] + spaceObject.radius;
-                offsetY = spaceObject.position[1] + spaceObject.radius;
-            }
-
-            this.position[0] = Math.Cos(time * orbitalSpeed * 3.1416 / 180) * (offsetX + orbitalRadius);
-            this.position[1] = Math.Sin(time * orbitalSpeed * 3.1416 / 180) * (offsetY + orbitalRadius);
-
-            if (moonList != null)
-            {
-                foreach (Moon moon in this.moonList)
-                {
-                    moon.updatePosition(time, this);
-                }
-            }
-            return this.position;
         }
     }
 }
