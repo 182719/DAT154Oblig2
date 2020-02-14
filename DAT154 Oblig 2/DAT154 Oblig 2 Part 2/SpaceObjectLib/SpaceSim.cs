@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace SpaceSim
 {
+    struct ObjectColor
+    {
+        int RED;
+        int GREEN;
+        int BLUE;
+    }
     public class SpaceObject
     {
         public String name { get; set; }

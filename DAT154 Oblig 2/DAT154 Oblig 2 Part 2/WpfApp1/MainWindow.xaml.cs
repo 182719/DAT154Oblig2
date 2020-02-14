@@ -88,7 +88,7 @@ namespace WpfApp1
             
             Ellipse ellipse1 = new Ellipse();
             SolidColorBrush solidColorBrush1 = new SolidColorBrush();
-            solidColorBrush1.Color = Color.FromArgb(255, 255, 0, 1);
+            solidColorBrush1.Color = Color.FromArgb(255, 255, 255, 1);
             ellipse1.Fill = solidColorBrush1;
             ellipse1.StrokeThickness = 2;
             ellipse1.Stroke = Brushes.Black;
