@@ -100,7 +100,7 @@ namespace WpfApp1
                 centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale* 10);
             } else
             {
-                centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale * 50);
+                centerPlanetDimension = center_planet.radius / (this.spaceObjDrawScale * 10);
             }
             ellipse1.Width = (int)centerPlanetDimension;
             ellipse1.Height = (int)centerPlanetDimension;
@@ -209,8 +209,8 @@ namespace WpfApp1
                         //current_object.moonList.Insert(0, current_object);
                         this.parent = current_object;
                         this.currentList = current_object.moonList;
-                        this.distanceScale = 5;
-                        this.spaceObjDrawScale = 10;
+                        this.distanceScale = 10000;
+                        this.spaceObjDrawScale = 100;
                         this.isZoomed = true;
                         drawSolarSystem(currentList, parent);
                     }
